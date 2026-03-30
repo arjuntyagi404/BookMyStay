@@ -1,3 +1,29 @@
+import java.util.HashMap;
+import java.util.Map;
+
+class RoomInventory {
+    private Map<String, Integer> roomAvailability;
+
+    public RoomInventory() {
+        roomAvailability = new HashMap<>();
+        initializeInventory();
+    }
+
+    private void initializeInventory() {
+        roomAvailability.put("Single", 5);
+        roomAvailability.put("Double", 3);
+        roomAvailability.put("Suite", 2);
+    }
+
+    public Map<String, Integer> getRoomAvailability() {
+        return roomAvailability;
+    }
+
+    public void updateAvailability(String roomType, int count) {
+        roomAvailability.put(roomType, count);
+    }
+}
+
 abstract class Room {
     protected int numberOfBeds;
     protected int squareFeet;
@@ -30,35 +56,34 @@ class DoubleRoom extends Room {
 
 class SuiteRoom extends Room {
     public SuiteRoom() {
-        super(3, 750, 5800.0);
+        super(3, 750, 5000.0);
     }
 }
 
 
-
 public class Bookmystay {
     public static void main(String[] args) {
+        RoomInventory inventory = new RoomInventory();
+
         Room singleRoom = new SingleRoom();
         Room doubleRoom = new DoubleRoom();
         Room suiteRoom = new SuiteRoom();
 
-        int singleAvailable = 5;
-        int doubleAvailable = 3;
-        int suiteAvailable = 2;
+        Map<String, Integer> availability = inventory.getRoomAvailability();
 
-        System.out.println("Hotel Room Initialization");
+        System.out.println("Hotel Room Inventory Status");
 
         System.out.println("\nSingle Room:");
         singleRoom.displayRoomDetails();
-        System.out.println("Available: " + singleAvailable);
+        System.out.println("Available Rooms: " + availability.get("Single"));
 
         System.out.println("\nDouble Room:");
         doubleRoom.displayRoomDetails();
-        System.out.println("Available: " + doubleAvailable);
+        System.out.println("Available Rooms: " + availability.get("Double"));
 
         System.out.println("\nSuite Room:");
         suiteRoom.displayRoomDetails();
-        System.out.println("Available: " + suiteAvailable);
+        System.out.println("Available Rooms: " + availability.get("Suite"));
     }
 }
 
